@@ -1,0 +1,480 @@
+body {
+    font-family: sans-serif;
+    background-image: url("../images/background.jpg");
+    /* Image Ref: https://wallpaperaccess.com/full/6273596.jpg */
+    background-attachment: fixed;
+    background-size: cover;
+    color: #edeaea;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main content area with minimum height calculation */
+main {
+    min-height: calc(100vh - 47.33px - 46.41px);
+}
+
+div#navcontainer {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+/* Apply the new font to the body and navbar */
+body,
+.navbar {
+    font-family: 'Press Start 2P', sans-serif;
+}
+
+/* Make the navbar translucent */
+.navbar {
+    backdrop-filter: blur(3.5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: backdrop-filter 0.3s ease; /* Smooth transition */
+}
+
+/* Change navbar text color to white */
+.navbar .nav-link,
+.navbar .navbar-brand {
+    color: white;
+    font-size: 0.7rem;
+}
+
+/* Navbar text color when scrolled */
+#navbar.scrolled {
+    color: black;
+}
+
+/* Inherit color from navbar for custom links */
+#navbar a.nav-link.custom-other-link {
+    color: inherit;
+}
+
+/* Custom link styles in the navbar */
+.navbar-nav .nav-link.custom-other-link {
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+/* Pink line hover effect for custom links */
+.navbar-nav .nav-link.custom-other-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #f07cee;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+}
+
+/* Pink line hover effect for custom links */
+.navbar-nav .nav-link.custom-other-link:hover::before {
+    transform: translateX(0);
+}
+
+/* Pink background for register button */
+a#registerButton.nav-link.custom-register-link {
+    border: 1.5px solid;
+    background-color: #f07cee;
+    font-weight: 600;
+    border-radius: 10px; /* Rounded corners */
+    padding: 0.3rem 0.75rem; /* Padding for spacing */
+    margin-left: 1rem;
+    margin-right: 1rem;
+    color: #edeaea;
+    transition: transform 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Hover effect for register button */
+.custom-register-link:hover {
+    transform: scale(1.03, 1.03);
+}
+
+#footer1 {
+    font-size: 0.6rem;
+    backdrop-filter: blur(20px);
+}
+
+/* Red text color for logout button */
+a#logoutButton.nav-link.custom-other-link {
+    color: rgb(223, 55, 55);
+}
+
+#logoImage {
+    width: 1.9rem;
+    height: 1.9rem;
+}
+
+/* Custom style for navbar toggler icon */
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Card background color */
+.card {
+    background-color: #efd9ee;
+}
+
+/* Style for pink card layout */
+.pinkcard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-size: 0.7rem;
+}
+
+/* Card body layout */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+/* Card image style */
+.card img {
+    width: auto;
+    height: 10rem;
+}
+
+/* Chest card image style */
+img.card-img-top.chest {
+    width: auto;
+    height: 13rem;
+    padding: 0.25rem;
+    border-radius: 0.7rem;
+}
+
+/* Not chest card image style */
+img.card-img-top.notchest {
+    width: auto;
+    height: 12rem;
+}
+
+/* Profile card image style */
+img.card-img-top.profile {
+    width: 17rem;
+    height: 11rem;
+}
+
+/* Pink button style */
+a.btn.pinkbutton,
+button.btn.pinkbutton {
+    background-color: #f07cee;
+    font-size: 0.7rem;
+}
+
+/* Pink button hover style */
+a.btn.pinkbutton:hover,
+button.pinkbutton:hover {
+    color: #000;
+    background-color: #eea3ec;
+}
+
+/* Orange button style */
+a.btn.orangebutton {
+    background-color: #e0a142;
+}
+
+/* Orange button hover style */
+a.btn.orangebutton:hover {
+    color: #000;
+    background-color: #eac072;
+}
+
+/* Orange button style */
+button.btn.orangebutton {
+    background-color: #e0a142;
+}
+
+/* Orange button hover style */
+button.btn.orangebutton:hover {
+    color: #000;
+    background-color: #eac072;
+}
+
+/* Style for the points */
+a#points {
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #f07cee; /* Pink color */
+    background-color: #000; /* Black background */
+    padding: 0.4rem 0.7rem;
+    margin-right: 0.9rem;
+    margin-top: 0.33rem;
+    border-radius: 19px;
+    box-shadow: 0 0 5px #f07cee, 0 0 10px #f07cee, 0 0 15px #f07cee;
+    transition: box-shadow 0.2s, color 0.5s ease;
+}
+
+/* Hover effect for points */
+a#points:hover {
+    box-shadow: 0 0 10px #f07cee, 0 0 15px #f07cee, 0 0 20px #f07cee;
+}
+
+/* Warning card style */
+#warningCard {
+    max-width: 35rem; /* Adjust the max width as needed */
+    max-height: 7rem;
+}
+
+/* Strong text color */
+strong {
+    color: #f90000;
+}
+
+/* Store strong text color */
+#store strong {
+    color: #ff00f2;
+}
+
+/* Chest strong text color */
+strong#chest {
+    color: #252121;
+}
+
+/* Profile font size */
+#profile {
+    font-size: 0.9rem;
+}
+
+/* Radiobutton padding */
+div.radiobutton {
+    padding-top: 2.1rem;
+}
+
+/* Muted text size */
+div.text-muted.mt-1 {
+    font-size: 0.6rem;
+}
+
+/* Show question margin */
+#showquestion {
+    margin-top: 1rem;
+}
+
+/* Card border radius for pets and survey */
+#showAllPets div.card,
+#survey div.card {
+    border-radius: 1.2rem;
+}
+
+/* Label font size */
+label {
+    font-size: 0.7rem;
+}
+
+/* Button font size */
+.allbutton {
+    font-size: 0.7rem;
+}
+
+/* Profile button font size and padding */
+.allbuttonprofile {
+    font-size: 0.7rem;
+    padding: 0.35rem;
+}
+
+/* Card title style */
+.card-title {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+/* Card text style */
+.card-text {
+    font-size: 0.6rem;
+}
+
+/* Centered card text style */
+p.card-text.text-center {
+    font-size: 0.7rem;
+}
+
+/* Pet details image size */
+img#petdetails {
+    width: auto;
+    height: 21rem;
+}
+
+/* Pet image container style */
+div#petimg.col-6.d-flex.align-items-center {
+    background-color: #ffd2d2;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+/* Pet stats container style */
+div#petstats {
+    background-color: #f8e1e1;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* Single pet name style */
+h3#singlepetname {
+    font-size: 2rem;
+}
+
+/* Cost link style */
+a.cost {
+    font-size: 0.9rem;
+}
+
+/* Chest modal content style */
+#chestModal .modal-content {
+    background-color: rgb(244, 191, 191);
+    color: rgb(0, 0, 0);
+}
+
+/* Chest modal header and footer style */
+#chestModal .modal-header,
+#chestModal .modal-footer {
+    border: none;
+}
+
+/* Quest modal content style */
+#questModal .modal-content {
+    background-color: rgb(244, 191, 191);
+    color: rgb(0, 0, 0);
+}
+
+/* Quest modal header and footer style */
+#questModal .modal-header,
+#questModal .modal-footer {
+    border: none;
+}
+
+
+
+/*     Style of Reviews star     */
+
+/* Rating widget container */
+.rate {
+    display: inline-block;
+    padding: 0 0.6rem;
+    margin: 0 auto;
+}
+
+/* Hide the radio buttons */
+.rate:not(:checked)>input {
+    position: absolute;
+    top: -9999px;
+}
+
+/* Style for the stars */
+.rate:not(:checked)>label {
+    float: right;
+    width: 2.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 3rem;
+    color: #ccc;
+}
+
+/* Star symbol */
+.rate:not(:checked)>label:before {
+    content: '★ ';
+}
+
+/* Color stars when checked */
+.rate>input:checked~label {
+    color: #ffc700;
+}
+
+/* Hover effect for stars */
+.rate:not(:checked)>label:hover,
+.rate:not(:checked)>label:hover~label {
+    color: #deb217;
+}
+
+/* Hover effect for stars when checked */
+.rate>input:checked+label:hover,
+.rate>input:checked+label:hover~label,
+.rate>input:checked~label:hover,
+.rate>input:checked~label:hover~label,
+.rate>label:hover~input:checked~label {
+    color: #c59b08;
+}
+
+/* Rate change widget container */
+.ratechange {
+    display: inline-block;
+    padding: 0 0.6rem;
+    margin: 0 auto;
+}
+
+/* Hide the radio buttons */
+.ratechange:not(:checked)>input {
+    position: absolute;
+    top: -9999px;
+    visibility: hidden;
+}
+
+/* Style for the stars */
+.ratechange:not(:checked)>label {
+    float: right;
+    width: 2.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 3rem;
+    color: #ccc;
+}
+
+/* Star symbol */
+.ratechange:not(:checked)>label:before {
+    content: '★ ';
+}
+
+/* Color stars when checked */
+.ratechange>input:checked~label {
+    color: #ffc700;
+}
+
+/* Hover effect for stars */
+.ratechange:not(:checked)>label:hover,
+.ratechange:not(:checked)>label:hover~label {
+    color: #deb217;
+}
+
+/* Hover effect for stars when checked */
+.ratechange>input:checked+label:hover,
+.ratechange>input:checked+label:hover~label,
+.ratechange>input:checked~label:hover,
+.ratechange>input:checked~label:hover~label,
+.ratechange>label:hover~input:checked~label {
+    color: #c59b08;
+}
+
+/* Style for the container with border and padding */
+.staredit {
+    border-top: 2.5px solid #afafaf; /* Change the color, width, and style as needed */
+    padding-top: 0.4rem; /* Optional: add padding to give some space inside the div */
+}
+
+/* Button group with right alignment */
+.button-group {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 10px; /* Optional: Add space between buttons */
+}
+
+/* Button group with space between buttons */
+.button-group-edit {
+    display: flex;
+    justify-content: space-between; /* Move buttons to opposite ends */
+    gap: 10px;
+}
+
+/* Rules section style */
+#rules {
+    font-size: 0.8rem;
+    background-color: #f8e1e1;
+    border-radius: 20px;
+    color: black;
+    padding: 1.3rem;
+}
