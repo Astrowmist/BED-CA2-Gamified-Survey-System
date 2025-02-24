@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "init_tables": "node src/configs/createSchema.js && node src/configs/initTables.js",
-    "build": "node index.js",
-    "dev": "nodemon index.js"
+    "init_tables": "node src/configs/createSchema.js && node src/configs/initTables.js"
   },
   "author": "Rowhith",
   "license": "ISC",
