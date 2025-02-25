@@ -26,12 +26,12 @@ module.exports.readQuestById = (req, res, next) => {
             console.error("Error readQuestById:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Quest not found"
                 });
             }
-            else res.status(200).json(results[0]);
+            else res.status(200).json(results.rows[0]);
         }
     }
 
@@ -50,13 +50,13 @@ module.exports.checkLastFed = (req, res, next) => {
             console.error("Error checkLastFed:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Pet does not exist"
                 });
             }
             else{ 
-                var lastfed=new Date(results[0].last_fed)
+                var lastfed=new Date(results.rows[0].last_fed)
                 var currentTime=new Date();
                 const diffHours = (currentTime - lastfed) / 1000 / 60 / 60;
 
@@ -83,13 +83,13 @@ module.exports.checkLastShowered = (req, res, next) => {
             console.error("Error checkLastShowered:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Pet does not exist"
                 });
             }
             else{ 
-                var lastShowered=new Date(results[0].last_showered)
+                var lastShowered=new Date(results.rows[0].last_showered)
                 var currentTime=new Date();
                 const diffHours = (currentTime - lastShowered) / 1000 / 60 / 60;
                 
@@ -117,13 +117,13 @@ module.exports.checkLastTimeSpent = (req, res, next) => {
             console.error("Error checkLastTimeSpent:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Pet does not exist"
                 });
             }
             else{ 
-                var lastShowered=new Date(results[0].last_time_spent)
+                var lastShowered=new Date(results.rows[0].last_time_spent)
                 var currentTime=new Date();
                 const diffHours = (currentTime - lastShowered) / 1000 / 60 / 60;
                 
@@ -154,7 +154,7 @@ module.exports.questCheck = (req, res, next) => {
             console.error("Error questCheck:", error);
             res.status(500).json(error);
         } else {
-            if (results.length != 0) {
+            if (results.rows.length != 0) {
                 res.status(409).json({
                     message: "This pet has already completed this quest. Choose another pet or another quest"
                 });
@@ -178,13 +178,13 @@ module.exports.readQuestStats = (req, res, next) => {
             console.error("Error readQuestById:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Quest not found"
                 });
             }
             else {
-                res.locals.quest = results[0];
+                res.locals.quest = results.rows[0];
                 next();
             }
         }
@@ -205,25 +205,25 @@ module.exports.readPetStatsAndBattle = (req, res, next) => {
             console.error("Error selectPetById:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Pet does not exist"
                 });
             }
             else {
                 var bossHp = res.locals.quest.boss_hp;
-                var petHp = results[0].pet_hp
+                var petHp = results.rows[0].pet_hp
                 while (bossHp >= 0 && petHp >= 0) {
-                    bossHp -= (results[0].pet_atk + results[0].armour_atk) / (res.locals.quest.boss_def + 100 / 100)
+                    bossHp -= (results.rows[0].pet_atk + results.rows[0].armour_atk) / (res.locals.quest.boss_def + 100 / 100)
                     if (bossHp <= 0)
                         break
-                    petHp -= res.locals.quest.boss_atk / ((results[0].pet_def + results[0].armour_def) + 100 / 100)
+                    petHp -= res.locals.quest.boss_atk / ((results.rows[0].pet_def + results.rows[0].armour_def) + 100 / 100)
                 }
 
                 if (bossHp <= 0)
                     next()
                 else
-                    res.status(200).json({message: `Oh no! ${results[0].pet_name} gave it their all but couldn't complete the quest this time. Mission Failed, We'll get'em next time` });
+                    res.status(200).json({message: `Oh no! ${results.rows[0].pet_name} gave it their all but couldn't complete the quest this time. Mission Failed, We'll get'em next time` });
             }
         }
     }
@@ -281,8 +281,8 @@ module.exports.showNewPetStats= (req, res, next) => {
             res.status(500).json(error);
         } else {
             res.status(200).json({
-                message:`Congratulations! ${results[0].pet_name} triumphed in the quest ${res.locals.quest.quest_name} and came back victorious!`,
-                Pet_Stats: results[0]
+                message:`Congratulations! ${results.rows[0].pet_name} triumphed in the quest ${res.locals.quest.quest_name} and came back victorious!`,
+                Pet_Stats: results.rows[0]
             });
         }
     }

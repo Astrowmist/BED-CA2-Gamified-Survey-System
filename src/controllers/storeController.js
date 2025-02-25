@@ -26,13 +26,13 @@ module.exports.selectOwnerId= (req, res, next) => {
             console.error("Error selectOwnerId:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Pet does not exist"
                 });
             }
             else{
-                res.locals.ownerId=results[0].owner_id
+                res.locals.ownerId=results.rows[0].owner_id
                 next()
             }
         }
@@ -53,13 +53,13 @@ module.exports.readUserPoints = (req, res, next) => {
             console.error("Error readUserPoints:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "User not found"
                 });
             }
             else{
-                res.locals.points=results[0].points
+                res.locals.points=results.rows[0].points
                 next()
             }
         }
@@ -80,7 +80,7 @@ module.exports.readUserPointsForArmour = (req, res, next) => {
             console.error("Error readUserPointsForArmour:", error);
             res.status(500).json(error);
         } else {
-                res.locals.points=results[0].points
+                res.locals.points=results.rows[0].points
                 next()
         }
     }
@@ -100,13 +100,13 @@ module.exports.commonCostCheck = (req, res, next) => {
             console.error("Error commonCostCheck:", error);
             res.status(500).json(error);
         } else {
-            if(results[0].cost>res.locals.points){
+            if(results.rows[0].cost>res.locals.points){
                 res.status(402).json({
                     message: "You do not have enough points to buy this item"
                 });
             }
             else{
-                res.locals.item=results[0]
+                res.locals.item=results.rows[0]
                 next()
             }
         }
@@ -127,13 +127,13 @@ module.exports.premiumCostCheck = (req, res, next) => {
             console.error("Error premiumCostCheck:", error);
             res.status(500).json(error);
         } else {
-            if(results[0].cost>res.locals.points){
+            if(results.rows[0].cost>res.locals.points){
                 res.status(402).json({
                     message: "You do not have enough points to buy this item"
                 });
             }
             else{
-                res.locals.item=results[0]
+                res.locals.item=results.rows[0]
                 next()
             }
         }
@@ -154,13 +154,13 @@ module.exports.ultimateCostCheck = (req, res, next) => {
             console.error("Error ultimateCostCheck:", error);
             res.status(500).json(error);
         } else {
-            if(results[0].cost>res.locals.points){
+            if(results.rows[0].cost>res.locals.points){
                 res.status(402).json({
                     message: "You do not have enough points to buy this item"
                 });
             }
             else{
-                res.locals.item=results[0]
+                res.locals.item=results.rows[0]
                 next()
             }
         }
@@ -187,18 +187,18 @@ module.exports.armourCostCheck = (req, res, next) => {
             console.error("Error armourCostCheck:", error);
             res.status(500).json(error);
         } 
-        else if (results.length == 0) {
+        else if (results.rows.length == 0) {
             res.status(404).json({
                 message: "Armour does not exist"
             });
         }else {
-            if(results[0].cost>res.locals.points){
+            if(results.rows[0].cost>res.locals.points){
                 res.status(402).json({
                     message: "You do not have enough points to buy this item"
                 });
             }
             else{
-                res.locals.item=results[0]
+                res.locals.item=results.rows[0]
                 next()
             }
         }
@@ -257,7 +257,7 @@ module.exports.openCommonChest = (req, res, next) => {
             res.status(500).json(error);
         }
         else {
-            res.locals.chestItem=results[0]
+            res.locals.chestItem=results.rows[0]
             next()
         }
     }
@@ -279,7 +279,7 @@ module.exports.openPremiumChest = (req, res, next) => {
             res.status(500).json(error);
         }
         else {
-            res.locals.chestItem=results[0]
+            res.locals.chestItem=results.rows[0]
             next()
         }
     }
@@ -307,7 +307,7 @@ module.exports.openUltimateChest = (req, res, next) => {
             res.status(500).json(error);
         }
         else {
-            res.locals.chestItem=results[0]
+            res.locals.chestItem=results.rows[0]
             next()
         }
     }
@@ -343,7 +343,7 @@ module.exports.addPet = (req, res, next) => {
             console.error("Error addPet:", error);
             res.status(500).json(error);
         } else {
-            res.locals.insertId=results.insertId
+            res.locals.insertId=results.rows[0].user_id
             next();
         }
     }
@@ -386,8 +386,8 @@ module.exports.selectNewPet= (req, res, next) => {
             res.status(500).json(error);
         } else {
             res.status(200).json({
-                message:`You just got a ${results[0].category} pet !!!`,
-                'Pet_Stats': results[0]
+                message:`You just got a ${results.rows[0].category} pet !!!`,
+                'Pet_Stats': results.rows[0]
             });
         }
     }
@@ -408,7 +408,7 @@ module.exports.selectPetWithNewArmour= (req, res, next) => {
             res.status(500).json(error);
         } else {
             res.status(200).json({
-                message:`Congratulations! ${results[0].pet_name} just got equipped with the awesome ${results[0].armour_name}! Ready to take on the world in style and strength!`
+                message:`Congratulations! ${results.rows[0].pet_name} just got equipped with the awesome ${results.rows[0].armour_name}! Ready to take on the world in style and strength!`
             });
         }
     }

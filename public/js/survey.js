@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("responseData:", responseData);
 
     const questionList = document.getElementById("surveyQuestions");
-    responseData.forEach((question) => {
+    responseData.rows.forEach((question) => {
       const displayItem = document.createElement("div");
       displayItem.className =
         `col-12`;

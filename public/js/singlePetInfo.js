@@ -32,7 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 legend: {
                     display: false // Hide legend if you want a cleaner look
-                }
+                },
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     }
@@ -69,9 +71,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     Armour: ${responseData.armour_name} <br>
                 </p>
                 <h4 class="text-center"">Pet Stats</h4>
-                <div class="chart-container justify-content-center align-items-center" style="height:60vh; width:100vw">
+                <div class="chart-container d-flex justify-content-center align-items-center">
                     <canvas id="petStatsChart"></canvas>
                 </div>
+
             </div>
         </div>
         </div>

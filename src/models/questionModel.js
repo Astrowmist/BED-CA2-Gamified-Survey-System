@@ -1,116 +1,124 @@
 const pool = require('../services/db');
 
+// Insert a new survey question
 module.exports.insertQuestion = (data, callback) => {
-    const SQLSTATMENT = `
+    const SQLSTATEMENT = `
         INSERT INTO surveyquestion (creator_id, question)
-        VALUES (?, ?);
-        `;
+        VALUES ($1, $2);
+    `;
     const VALUES = [data.id, data.question];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
-
+// Select a question by its ID
 module.exports.selectById = (data, callback) => {
-    const SQLSTATMENT = `
-            SELECT question_id,question,creator_id FROM surveyquestion
-            WHERE question_id = ?;
-            `;
+    const SQLSTATEMENT = `
+        SELECT question_id, question, creator_id FROM surveyquestion
+        WHERE question_id = $1;
+    `;
     const VALUES = [data.id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
-
+// Select all survey questions
 module.exports.selectAll = (callback) => {
-    const SQLSTATMENT = `
-        SELECT question_id,question,creator_id FROM surveyquestion;
-        `;
+    const SQLSTATEMENT = `
+        SELECT question_id, question, creator_id FROM surveyquestion;
+    `;
 
-    pool.query(SQLSTATMENT, callback);
-}
+    pool.query(SQLSTATEMENT, callback);
+};
 
-
+// Update a question by its ID
 module.exports.updateById = (data, callback) => {
-    const SQLSTATMENT = `
+    const SQLSTATEMENT = `
         UPDATE surveyquestion 
-        SET question = ?
-        WHERE question_id = ?;
-        `;
+        SET question = $1
+        WHERE question_id = $2;
+    `;
     const VALUES = [data.question, data.id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
-
+// Delete a survey question and related answers
 module.exports.deleteById = (data, callback) => {
-    const SQLSTATMENT = `
-    DELETE FROM surveyquestion 
-    WHERE question_id = ?;
-
-    DELETE FROM useranswer 
-    WHERE answered_question_id = ?;
+    const deleteAnswers = `
+        DELETE FROM useranswer 
+        WHERE answered_question_id = $1;
     `;
-    const VALUES = [data.id, data.id];
+    const deleteQuestion = `
+        DELETE FROM surveyquestion 
+        WHERE question_id = $1;
+    `;
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(deleteAnswers, [data.id], (err, res) => {
+        if (err) return callback(err);
+        pool.query(deleteQuestion, [data.id], callback);
+    });
+};
+
+// Select question and user information
+module.exports.selectQuestionAndUser = async (data, callback) => {
+    try {
+        const questionQuery = `SELECT * FROM surveyquestion WHERE question_id = $1;`;
+        const userQuery = `SELECT * FROM "user" WHERE user_id = $1;`; // Note: $1 is reused
+
+        const questionResult = await pool.query(questionQuery, [data.question_id]);
+        const userResult = await pool.query(userQuery, [data.user_id]);
+
+        callback(null, { question: questionResult.rows[0], user: userResult.rows[0] });
+    } catch (error) {
+        callback(error, null);
+    }
+};
 
 
-module.exports.selectQuestionAndUser = (data, callback) => {
-    const SQLSTATMENT = `
-            SELECT * FROM surveyquestion
-            WHERE question_id = ?;
-
-            SELECT * FROM user
-            WHERE user_id = ?;
-            `;
-    const VALUES = [data.question_id, data.user_id];
-
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
-
-
+// Insert an answer for a survey question
 module.exports.insertAnswer = (data, callback) => {
-    const SQLSTATMENT = `
-        INSERT INTO useranswer (answered_question_id, participant_id,answer,creation_date,additional_notes)
-        VALUES (?, ?, ?, ?, ?);
-        `;
-    const VALUES = [data.question_id, data.user_id,data.answer,data.date,data.notes];
+    const SQLSTATEMENT = `
+        INSERT INTO useranswer (answered_question_id, participant_id, answer, creation_date, additional_notes)
+        VALUES ($1, $2, $3, $4, $5);
+    `;
+    const VALUES = [data.question_id, data.user_id, data.answer, data.date, data.notes];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
+// Update user points
 module.exports.updatePointsById = (data, callback) => {
-    const SQLSTATMENT = `
-        UPDATE user 
+    const SQLSTATEMENT = `
+        UPDATE "user" 
         SET points = points + 5
-        WHERE user_id = ?;
-        `;
+        WHERE user_id = $1;
+    `;
     const VALUES = [data.id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
-
+// Select an answer by answer ID
 module.exports.selectAnswerById = (data, callback) => {
-    const SQLSTATMENT = `
-            SELECT * FROM useranswer
-            WHERE answer_id = ?;
-            `;
+    const SQLSTATEMENT = `
+        SELECT * FROM useranswer
+        WHERE answer_id = $1;
+    `;
     const VALUES = [data.id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
-
+// Select answers by question ID
 module.exports.selectAnswerByQuestionId = (data, callback) => {
-    const SQLSTATMENT = `
-            SELECT participant_id,answer,creation_date,additional_notes,question FROM useranswer
-            INNER JOIN surveyquestion ON useranswer.answered_question_id = surveyquestion.question_id
-            WHERE answered_question_id = ?;
-            `;
+    const SQLSTATEMENT = `
+        SELECT participant_id, answer, creation_date, additional_notes, question 
+        FROM useranswer
+        INNER JOIN surveyquestion ON useranswer.answered_question_id = surveyquestion.question_id
+        WHERE answered_question_id = $1;
+    `;
     const VALUES = [data.id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};

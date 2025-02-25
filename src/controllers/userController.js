@@ -18,14 +18,14 @@ module.exports.login = (req, res, next) => {
             console.error("Error login:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "User not found"
                 });
             }
             else{ 
-                res.locals.hash=results[0].password
-                res.locals.userId=results[0].user_id
+                res.locals.hash=results.rows[0].password
+                res.locals.userId=results.rows[0].user_id
                 next();
             }
         }
@@ -54,7 +54,7 @@ module.exports.register = (req, res, next) => {
             console.error("Error register:", error);
             res.status(500).json(error);
         } else {
-            res.locals.userId=results.insertId
+            res.locals.userId=results.rows[0].user_id
             res.locals.message=`User ${req.body.username} created successfully.`
             next()
         }
@@ -83,7 +83,7 @@ module.exports.userCheck = (req, res, next) => {
             console.error("Error userCheck:", error);
             res.status(500).json(error);
         } else {
-            if (results.length != 0) {
+            if (results.rows.length != 0) {
                 res.status(409).json({
                     message: "Username is already associated with another user. Choose another username"
                 });
@@ -97,8 +97,8 @@ module.exports.userCheck = (req, res, next) => {
 
 //  Select a default pet for the user
 module.exports.selectDefaultPet = (req, res, next) => {
-    randomPet= Math.floor(Math.random() * 2);
-    var data;
+    let randomPet= Math.floor(Math.random() * 2);
+    let data;
     if(randomPet==0){
         data = {
             pet_name:'Cat'
@@ -113,7 +113,7 @@ module.exports.selectDefaultPet = (req, res, next) => {
             console.error("Error selectDefaultPet:", error);
             res.status(500).json(error);
         } else {
-            res.locals.pet=results[0]
+            res.locals.pet=results.rows[0]
             next();
         }
     }
@@ -157,7 +157,7 @@ module.exports.readUserByUsername = (req, res, next) => {
             console.error("Error readUserByUsername:", error);
             res.status(500).json(error);
         } else {
-            res.status(201).json(results[0]);
+            res.status(201).json(results.rows[0]);
         }
     }
 
@@ -204,12 +204,12 @@ module.exports.readUserById = (req, res, next) => {
             console.error("Error readUserById:", error);
             res.status(500).json(error);
         } else {
-            if (results[0].user_id == null) {
+            if (results.rows[0].user_id == null) {
                 res.status(404).json({
                     message: "User not found"
                 });
             }
-            else res.status(200).json(results[0]);
+            else res.status(200).json(results.rows[0]);
         }
     }
 
@@ -233,7 +233,7 @@ module.exports.userCheckWithUserID = (req, res, next) => {
             console.error("Error userCheck:", error);
             res.status(500).json(error);
         } else {
-            if (results.length != 0) {
+            if (results.rows.length != 0) {
                 res.status(409).json({
                     message: "username is already associated with another user"
                 });

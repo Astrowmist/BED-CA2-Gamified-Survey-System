@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("responseData:", responseData);
 
         const reviewList = document.getElementById("Reviews");
-        responseData.forEach((review) => {
+        responseData.rows.forEach((review) => {
+            review.created_at = review.created_at.split("T")[0];
             const displayItem = document.createElement("div");
             displayItem.className =
                 `col-xl-4 col-lg-5 col-md-5 col-sm-6 col-xs-12 p-3 px-2`;
@@ -60,10 +61,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         <input type="radio" id="star1-${review.id}" name="ratechange" value="1" />
                         <label for="star1-${review.id}" title="text">1 star</label>
                     </div>
-        <div class="button-group-edit p-2">
-            <a href="#" class="btn pinkbutton allbutton" id="confirm-${review.id}" style="margin-top: 5px;">Confirm Changes</a>
-            <a href="#" class="btn btn-secondary allbutton" id="cancel-${review.id}" style="margin-top: 5px;">Cancel</a>
-        </div>
+                    <div class="button-group-edit p-2 d-flex flex-wrap justify-content-center gap-2">
+                        <a href="#" class="btn pinkbutton allbutton w-auto w-md-100" id="confirm-1">Confirm Changes</a>
+                        <a href="#" class="btn btn-secondary allbutton w-auto w-md-100" id="cancel-1">Cancel</a>
+                    </div>
+
                     </div>
                 </div>
                 `;

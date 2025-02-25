@@ -1,66 +1,57 @@
 const pool = require('../services/db');
 
-module.exports.selectAll = (callback) =>
-{
-    const SQLSTATMENT = `
-    SELECT Reviews.*,username FROM Reviews
-    INNER JOIN user ON user.user_id = Reviews.user_id;
+// Select all reviews with user info
+module.exports.selectAll = (callback) => {
+    const SQLSTATEMENT = `
+        SELECT Reviews.*, username 
+        FROM Reviews
+        INNER JOIN "user" ON "user".user_id = Reviews.user_id;
     `;
 
-    pool.query(SQLSTATMENT, callback);
-}
+    pool.query(SQLSTATEMENT, callback);
+};
 
-module.exports.selectById = (data, callback) =>
-{
-    const SQLSTATMENT = `
-    SELECT * FROM Reviews
-    WHERE id = ?;
+// Select a single review by ID
+module.exports.selectById = (data, callback) => {
+    const SQLSTATEMENT = `
+        SELECT * FROM Reviews
+        WHERE id = $1;
     `;
     const VALUES = [data.id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
-module.exports.insertSingle = (data, callback) =>
-{
-    const SQLSTATMENT = `
-    INSERT INTO Reviews (review_amt, user_id)
-    VALUES (?, ?);
+// Insert a new review
+module.exports.insertSingle = (data, callback) => {
+    const SQLSTATEMENT = `
+        INSERT INTO Reviews (review_amt, user_id)
+        VALUES ($1, $2);
     `;
     const VALUES = [data.review_amt, data.user_id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
-module.exports.updateById = (data, callback) =>
-{
-    const SQLSTATMENT = `
-    UPDATE Reviews 
-    SET review_amt = ?
-    WHERE id = ?;
+// Update review by ID
+module.exports.updateById = (data, callback) => {
+    const SQLSTATEMENT = `
+        UPDATE Reviews 
+        SET review_amt = $1
+        WHERE id = $2;
     `;
     const VALUES = [data.review_amt, data.id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
-module.exports.selectById = (data, callback) => {
-    const SQLSTATMENT = `
-            SELECT * FROM Reviews
-            WHERE id = ?;
-            `;
-    const VALUES = [data.id];
-
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
-
-module.exports.deleteById = (data, callback) =>
-{
-    const SQLSTATMENT = `
-    DELETE FROM Reviews 
-    WHERE id = ?;
+// Delete a review by ID
+module.exports.deleteById = (data, callback) => {
+    const SQLSTATEMENT = `
+        DELETE FROM Reviews 
+        WHERE id = $1;
     `;
     const VALUES = [data.id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};

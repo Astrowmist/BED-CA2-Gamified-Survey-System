@@ -13,7 +13,7 @@ const callback = (responseStatus, responseData) => {
     const otherRows = document.createElement("div");
     otherRows.className = "row";
 
-    responseData.forEach((storeItem, index) => {
+    responseData.rows.forEach((storeItem, index) => {
         const displayItem = document.createElement("div");
 
         if (storeItem.item_id < 4) {
@@ -50,10 +50,10 @@ const callback = (responseStatus, responseData) => {
                             ATK: ${storeItem.atk} <br>
                             DEF: ${storeItem.def} <br>
                         </p>
-                        <div class="d-flex justify-content-between mt-3">
-                            <a class="btn cost">Cost: <strong>${storeItem.cost}</strong></a>
+                        <div class="d-flex justify-content-between align-items-center mt-3 gap-2">
+                            <a class="btn cost flex-grow-1 text-center">Cost: <strong>${storeItem.cost}</strong></a>
                             <div>
-                                <a class="btn pinkbutton allbutton" id="armour-${storeItem.item_id}">Buy</a>
+                                <a class="btn pinkbutton allbutton flex-grow-1 text-center" id="armour-${storeItem.item_id}">Buy</a>
                             </div>
                         </div>
                     </div>

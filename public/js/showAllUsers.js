@@ -4,7 +4,7 @@ const callback = (responseStatus, responseData) => {
     console.log("responseData:", responseData);
 
     const petList = document.getElementById("userList");
-    responseData.forEach((user) => {
+    responseData.rows.forEach((user) => {
         const displayItem = document.createElement("div");
         displayItem.className =
             "col-xl-3 col-lg-5 col-md-6 col-sm-7 col-xs-12 p-3 px-2";

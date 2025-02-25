@@ -25,38 +25,38 @@ module.exports.selectAllOwnedPetsWithOwnerId= (req, res, next) => {
             console.error("Error selectPetById:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "User not found"
                 });
             }
             else {
                 var currentTime=new Date();
-                for(var i = 0 ; i < results.length ; i++){
-                var lastfed=new Date(results[i].last_fed)
-                var lastshowered=new Date(results[i].last_showered)
-                var lastplayed=new Date(results[i].last_time_spent)
+                for(var i = 0 ; i < results.rows.length ; i++){
+                var lastfed=new Date(results.rows[i].last_fed)
+                var lastshowered=new Date(results.rows[i].last_showered)
+                var lastplayed=new Date(results.rows[i].last_time_spent)
 
                 const diffFed = (currentTime - lastfed) / 1000 / 60 / 60;
                 const diffShower = (currentTime - lastshowered) / 1000 / 60 / 60;
                 const diffPlayed = (currentTime - lastplayed) / 1000 / 60 / 60;
 
                 if (diffFed <= 1) {
-                    results[i].last_fed="Full"
+                    results.rows[i].last_fed="Full"
                 }else{
-                    results[i].last_fed="Hungry"
+                    results.rows[i].last_fed="Hungry"
                 }
 
                 if (diffShower <= 1.5) {
-                    results[i].last_showered="Clean"
+                    results.rows[i].last_showered="Clean"
                 }else{
-                    results[i].last_showered="Dirty"
+                    results.rows[i].last_showered="Dirty"
                 }
 
                 if (diffPlayed <= 1) {
-                    results[i].last_time_spent="Happy"
+                    results.rows[i].last_time_spent="Happy"
                 }else{
-                    results[i].last_time_spent="Upset"
+                    results.rows[i].last_time_spent="Upset"
                 }
             }
                 res.status(200).json(results);
@@ -78,12 +78,12 @@ module.exports.selectOwnedPetsById= (req, res, next) => {
             console.error("Error selectPetById:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Pet does not exist"
                 });
             }
-            else res.status(200).json(results[0]);
+            else res.status(200).json(results.rows[0]);
         }
     }
 
@@ -101,13 +101,13 @@ module.exports.checkLastFed = (req, res, next) => {
             console.error("Error checkLastFed:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Pet does not exist"
                 });
             }
             else{ 
-                var lastfed=new Date(results[0].last_fed)
+                var lastfed=new Date(results.rows[0].last_fed)
                 var currentTime=new Date();
                 const diffHours = (currentTime - lastfed) / 1000 / 60 / 60;
 
@@ -157,13 +157,13 @@ module.exports.checkLastShowered = (req, res, next) => {
             console.error("Error checkLastShowered:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Pet does not exist"
                 });
             }
             else{ 
-                var lastShowered=new Date(results[0].last_showered)
+                var lastShowered=new Date(results.rows[0].last_showered)
                 var currentTime=new Date();
                 const diffHours = (currentTime - lastShowered) / 1000 / 60 / 60;
                 
@@ -213,13 +213,13 @@ module.exports.checkLastTimeSpent = (req, res, next) => {
             console.error("Error checkLastTimeSpent:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Pet does not exist"
                 });
             }
             else{ 
-                var lastShowered=new Date(results[0].last_time_spent)
+                var lastShowered=new Date(results.rows[0].last_time_spent)
                 var currentTime=new Date();
                 const diffHours = (currentTime - lastShowered) / 1000 / 60 / 60;
                 
@@ -274,13 +274,13 @@ module.exports.readPet1= (req, res, next) => {
             console.error("Error selectPet1:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: `Pet with id ${req.params.pet_id_1} does not exist`
                 });
             }
             else {
-                res.locals.pet1=results[0]
+                res.locals.pet1=results.rows[0]
                 next()
             }
         }
@@ -301,18 +301,18 @@ module.exports.readPet2= (req, res, next) => {
             console.error("Error selectPet2:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: `Pet with id ${req.params.pet_id_2} does not exist`
                 });
             }
-            else if(res.locals.pet1.owner_id != results[0].owner_id){
+            else if(res.locals.pet1.owner_id != results.rows[0].owner_id){
                 res.status(403).json({
                     message: `You cannot breed your pet with another user's pet !`
                 });
             }
             else {
-                res.locals.pet2=results[0]
+                res.locals.pet2=results.rows[0]
                 next()
             }
         }
@@ -333,7 +333,7 @@ module.exports.checkLastBred = (req, res, next) => {
             console.error("Error checkLastBred:", error);
             res.status(500).json(error);
         } else {
-                var lastBred=new Date(results[0].last_bred)
+                var lastBred=new Date(results.rows[0].last_bred)
                 var currentTime=new Date();
                 const diffHours = (currentTime - lastBred) / 1000 / 60 / 60;
                 
@@ -342,7 +342,7 @@ module.exports.checkLastBred = (req, res, next) => {
                         message: "Your pet says, 'I'm not in the mood for matchmaking right now! Try again later.' You can only breed once a day"
                     });
                 }else{
-                    res.locals.username=results[0].username
+                    res.locals.username=results.rows[0].username
                     next()
                 }
         }
@@ -370,7 +370,7 @@ module.exports.breed = (req, res, next) => {
             console.error("Error breed:", error);
             res.status(500).json(error);
         } else {
-            res.locals.child=results[0]
+            res.locals.child=results.rows[0]
             next()
         }
     }
@@ -394,7 +394,7 @@ module.exports.addBredPet = (req, res, next) => {
             console.error("Error addBredPet:", error);
             res.status(500).json(error);
         } else {
-            res.locals.insertId=results.insertId
+            res.locals.insertId=results.rows[0].user_id
             next();
         }
     }
@@ -435,7 +435,7 @@ module.exports.selectNewlyBredPet= (req, res, next) => {
         } else {
             res.status(200).json({
                 message:`Congratulations ${res.locals.username}! Your pets ${res.locals.pet1.pet_name} and ${res.locals.pet2.pet_name} have created a cute new companion for you!`,
-                'New Pet Stats': results[0]
+                'New Pet Stats': results.rows[0]
             });
         }
     }

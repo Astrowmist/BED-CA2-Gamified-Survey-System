@@ -1,106 +1,104 @@
 const pool = require('../services/db');
 
 module.exports.selectByUsername = (data, callback) => {
-    const SQLSTATMENT = `
-        SELECT user_id,username,points FROM user
-        WHERE username = ?;
-        `;
+    const SQLSTATEMENT = `
+        SELECT user_id, username, points FROM "user"
+        WHERE username = $1;
+    `;
     const VALUES = [data.username];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
 module.exports.getUserIdAndPassword = (data, callback) => {
-    const SQLSTATMENT = `
-        SELECT user_id,password FROM user
-        WHERE username = ?;
-        `;
+    const SQLSTATEMENT = `
+        SELECT user_id, password FROM "user"
+        WHERE username = $1;
+    `;
     const VALUES = [data.username];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
 module.exports.selectByUserId = (data, callback) => {
-    const SQLSTATMENT = `
-        SELECT points FROM user
-        WHERE user_id = ?;
-        `;
+    const SQLSTATEMENT = `
+        SELECT points FROM "user"
+        WHERE user_id = $1;
+    `;
     const VALUES = [data.userId];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
-
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
 module.exports.insertUser = (data, callback) => {
-    const SQLSTATMENT = `
-        INSERT INTO user (username, password,points)
-        VALUES (?, ?, ?);
-        `;
+    const SQLSTATEMENT = `
+        INSERT INTO "user" (username, password, points)
+        VALUES ($1, $2, $3)
+        RETURNING user_id;
+    `;
     const VALUES = [data.username, data.password, data.points];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
 module.exports.selectAll = (callback) => {
-    const SQLSTATMENT = `
-        SELECT * FROM user;
-        `;
+    const SQLSTATEMENT = `
+        SELECT * FROM "user";
+    `;
 
-    pool.query(SQLSTATMENT, callback);
-}
-
+    pool.query(SQLSTATEMENT, callback);
+};
 
 module.exports.selectUserWithUserId = (data, callback) => {
-    const SQLSTATMENT = `
-        SELECT user_id,username,COUNT(participant_id) AS completed_questions,points
-        FROM user
-        LEFT JOIN useranswer ON user.user_id = useranswer.participant_id
-        WHERE user_id=?;
-        `;
+    const SQLSTATEMENT = `
+        SELECT user_id, username, COUNT(participant_id) AS completed_questions, points
+        FROM "user"
+        LEFT JOIN useranswer ON "user".user_id = useranswer.participant_id
+        WHERE user_id = $1
+        GROUP BY user_id, username, points;
+    `;
     const VALUES = [data.user_id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
 module.exports.selectByUsernameAndUserId = (data, callback) => {
-    const SQLSTATMENT = `
-        SELECT * FROM user
-        WHERE username = ? AND NOT user_id = ?;
-        `;
+    const SQLSTATEMENT = `
+        SELECT * FROM "user"
+        WHERE username = $1 AND user_id <> $2;
+    `;
     const VALUES = [data.username, data.user_id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
-
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
 module.exports.updateById = (data, callback) => {
-    const SQLSTATMENT = `
-        UPDATE user 
-        SET username = ?
-        WHERE user_id = ?;
-        `;
+    const SQLSTATEMENT = `
+        UPDATE "user" 
+        SET username = $1
+        WHERE user_id = $2;
+    `;
     const VALUES = [data.username, data.user_id];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
 module.exports.selectByPetName = (data, callback) => {
-    const SQLSTATMENT = `
+    const SQLSTATEMENT = `
         SELECT * FROM pets
-        WHERE pet_name = ?;
-        `;
+        WHERE pet_name = $1;
+    `;
     const VALUES = [data.pet_name];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
-
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
 
 module.exports.insertOwnedPet = (data, callback) => {
-    const SQLSTATMENT = `
+    const SQLSTATEMENT = `
         INSERT INTO ownedpet (owner_id, pet_id, pet_level, pet_hp, pet_atk, pet_def)
-        VALUES (?, ?, ?, ?, ?, ?);
-        `;
+        VALUES ($1, $2, $3, $4, $5, $6);
+    `;
     const VALUES = [data.owner_id, data.pet_id, data.pet_level, data.pet_hp, data.pet_atk, data.pet_def];
 
-    pool.query(SQLSTATMENT, VALUES, callback);
-}
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};

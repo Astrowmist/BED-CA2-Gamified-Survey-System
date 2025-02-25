@@ -478,3 +478,33 @@ a.cost {
     color: black;
     padding: 1.3rem;
 }
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Adjust as needed */
+    height: auto;
+}
+
+#petStatsChart {
+    width: 100% !important;
+    height: auto !important;
+}
+
+
+.d-flex {
+    flex-wrap: wrap; /* Ensures buttons wrap if needed */
+}
+
+.btn {
+    white-space: nowrap; /* Prevents text from breaking */
+    min-width: 100px; /* Ensures buttons have a minimum size */
+    text-align: center;
+}
+
+
+.pinkbutton {
+    border-radius: 5px;
+    padding: 10px 15px;
+    flex-grow: 1; /* Ensures Buy button takes up available space */
+}

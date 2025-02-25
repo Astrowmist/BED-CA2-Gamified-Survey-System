@@ -42,12 +42,12 @@ module.exports.readReviewById = (req, res, next) => {
             console.error("Error readReviewById:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Review not found"
                 });
             }
-            else res.status(200).json(results[0]);
+            else res.status(200).json(results.rows[0]);
         }
     }
 
@@ -112,7 +112,7 @@ module.exports.reviewUserCheck = (req, res, next) => {
             console.error("Error questionUserCheck:", error);
             res.status(500).json(error);
         } else {
-            if (results[0].user_id != res.locals.userId) {
+            if (results.rows[0].user_id != res.locals.userId) {
                 res.status(403).json({
                     message: "Forbidden. You are not the owner of this Review."
                 });

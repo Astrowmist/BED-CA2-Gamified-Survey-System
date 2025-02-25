@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
         else if (responseStatus == 401) {
             localStorage.removeItem("token");
             window.location.href = "login.html";
+            return;
         }
 
         UserInfo.innerHTML = `
@@ -82,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("responseStatus:", responseStatus);
         console.log("responseData:", responseData);
 
-        responseData.forEach((ownedpet) => {
+        responseData.rows.forEach((ownedpet) => {
             if (ownedpet.armour_name == null) {
                 ownedpet.armour_name = "No Armour"
             }
@@ -175,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
-        responseData.forEach((ownedpet) => {
+        responseData.rows.forEach((ownedpet) => {
             const hungerElement = document.getElementById(`hunger-${ownedpet.owned_pet_id}`);
             const showerElement = document.getElementById(`hygiene-${ownedpet.owned_pet_id}`);
             const playElement = document.getElementById(`mood-${ownedpet.owned_pet_id}`);

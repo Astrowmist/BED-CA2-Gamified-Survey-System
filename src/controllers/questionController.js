@@ -73,12 +73,12 @@ module.exports.questionUserCheck = (req, res, next) => {
             console.error("Error questionUserCheck:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Requested question does not exist"
                 });
             }
-            else if (results[0].creator_id != res.locals.userId) {
+            else if (results.rows[0].creator_id != res.locals.userId) {
                 res.status(403).json({
                     message: "Forbidden. You are not the owner of the requested question"
                 });
@@ -102,7 +102,7 @@ module.exports.questionUserDeleteCheck = (req, res, next) => {
             console.error("Error questionUserCheck:", error);
             res.status(500).json(error);
         } else {
-            if (results[0].creator_id != res.locals.userId) {
+            if (results.rows[0].creator_id != res.locals.userId) {
                 res.status(403).json({
                     message: "Forbidden. You are not the owner of the requested question"
                 });
@@ -163,7 +163,7 @@ module.exports.deleteQuestionById = (req, res, next) => {
             console.error("Error deleteQuestionById:", error);
             res.status(500).json(error);
         } else {
-            if (results[0].affectedRows == 0) {
+            if (results.rowCount == 0) {
                 res.status(404).json({
                     message: "Question not found"
                 });
@@ -193,17 +193,13 @@ module.exports.questionAndUserCheck = (req, res, next) => {
             console.error("Error questionAndUserCheck:", error);
             res.status(500).json(error);
         } else {
-            if (results[0].length == 0) {
-                res.status(404).json({
-                    message: "Question does not exist"
-                });
-            }
-            else if(results[1].length == 0){
-                res.status(404).json({
-                    message: "User does not exist"
-                });
-            }
-            else next();
+            if (!results.question) {
+                res.status(404).json({ message: "Question does not exist" });
+            } else if (!results.user) {
+                res.status(404).json({ message: "User does not exist" });
+            } else {
+                next();
+            }            
         }
     }
 
@@ -226,7 +222,6 @@ module.exports.createNewAnswer = (req, res, next) => {
             console.error("Error createNewAnswer:", error);
             res.status(500).json(error);
         } else {
-            res.locals.insertId=results.insertId
             next();
         }
     }
@@ -251,7 +246,7 @@ module.exports.updatePoints = (req, res, next) => {
 }
 
 
-// Select the newly added answer in the useranswer table for teh response body
+// Select the newly added answer in the useranswer table for the response body
 module.exports.readAnswerById = (req, res, next) => {
     const data = {
         id: res.locals.insertId
@@ -262,10 +257,10 @@ module.exports.readAnswerById = (req, res, next) => {
             console.error("Error readAnswerById:", error);
             res.status(500).json(error);
         } else {
-            if(results[0].answer==1)
-                results[0].answer=true
-            else results[0].answer=false
-            res.status(201).json(results[0]);
+            if(results.rows[0].answer==1)
+                results.rows[0].answer=true
+            else results.rows[0].answer=false
+            res.status(201).json(results.rows[0]);
         }
     }
 
@@ -284,16 +279,16 @@ module.exports.readAnswerByQuestionId = (req, res, next) => {
             console.error("Error readAnswerByQuestionId:", error);
             res.status(500).json(error);
         } else {
-            if (results.length == 0) {
+            if (results.rows.length == 0) {
                 res.status(404).json({
                     message: "Question has no answer yet"
                 });
             }
             else {
-                for(var i = 0 ; i < results.length ; i++){
-                    if(results[i].answer==1)
-                        results[i].answer=true
-                    else results[i].answer=false
+                for(var i = 0 ; i < results.rows.length ; i++){
+                    if(results.rows[i].answer==1)
+                        results.rows[i].answer=true
+                    else results.rows[i].answer=false
                 }
                 res.status(200).json(results)
             };

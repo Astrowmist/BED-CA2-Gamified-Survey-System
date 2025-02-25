@@ -30,12 +30,12 @@ document.addEventListener("DOMContentLoaded", function () {
             displayItem.innerHTML = `
               <div class="card">
                   <div class="card-body">
-                      <h5 class="card-title"> Question: ${responseData[0].question}</h5>
+                      <h5 class="card-title"> Question: ${responseData.rows[0].question}</h5>
                       <div class="row">
                       <div class="col-12">
                       <p class="card-text">
-                          Question Id: ${responseData[0].question_id} <br>
-                          Creator Id: ${responseData[0].creator_id} <br>
+                          Question Id: ${responseData.rows[0].question_id} <br>
+                          Creator Id: ${responseData.rows[0].creator_id} <br>
                       </p>
                       </div>
                       </div>

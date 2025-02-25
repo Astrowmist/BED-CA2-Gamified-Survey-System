@@ -14,9 +14,9 @@ const callback = (responseStatus, responseData) => {
     if(responseStatus=404){
         question.textContent="This question has no answers yet. Be the first to submit one !"
     }
-    question.textContent=responseData[0].question
-    responseData.forEach((answer) => {
-        answer.creation_date = answer.creation_date.split(" ")[0]
+    question.textContent=responseData.rows[0].question
+    responseData.rows.forEach((answer) => {
+        answer.creation_date = answer.creation_date.split("T")[0];
         const displayItem = document.createElement("div");
         displayItem.className =
             "col-xl-4 col-lg-5 col-md-5 col-sm-6 col-xs-12 p-3 px-2";
