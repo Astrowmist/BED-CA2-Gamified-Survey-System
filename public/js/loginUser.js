@@ -5,9 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("responseData:", responseData);
         if (responseStatus == 200) {
             // Check if login was successful
-            if (responseData.token) {
+            if (responseData.rows.token) {
                 // Store the token in local storage
-                localStorage.setItem("token", responseData.token);
+                localStorage.setItem("token", responseData.rows.token);
                 // Redirect or perform further actions for logged-in user
                 window.location.href = "profile.html";
             }

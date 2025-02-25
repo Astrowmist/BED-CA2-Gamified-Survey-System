@@ -4,7 +4,7 @@ const callback = (responseStatus, responseData) => {
     console.log("responseData:", responseData);
 
     const questList = document.getElementById("questList");
-    responseData.forEach((quest) => {
+    responseData.rows.forEach((quest) => {
         const displayItem = document.createElement("div");
         function capitalizeWords(str) {
             return str.split(' ')

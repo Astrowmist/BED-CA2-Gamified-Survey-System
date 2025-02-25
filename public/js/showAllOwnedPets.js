@@ -1,10 +1,10 @@
-// JS for pets.html. shows all owned pets
+// JS for pets.html shows all owned pets
 const callback = (responseStatus, responseData) => {
     console.log("responseStatus:", responseStatus);
     console.log("responseData:", responseData);
 
     const petList = document.getElementById("petList");
-    responseData.forEach((ownedpet) => {
+    responseData.rows.forEach((ownedpet) => {
         if(ownedpet.armour_name==null){
             ownedpet.armour_name="No Armour"
         }

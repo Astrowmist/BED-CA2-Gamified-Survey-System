@@ -13,7 +13,7 @@ const callback = (responseStatus, responseData) => {
     const petList = document.getElementById("petList");
 
     // Loop through each owned pet in the response data
-    responseData.forEach((ownedpet) => {
+    responseData.rows.forEach((ownedpet) => {
         // If the pet has no armour, set 'No Armour' as the default value
         if (ownedpet.armour_name == null) {
             ownedpet.armour_name = "No Armour";

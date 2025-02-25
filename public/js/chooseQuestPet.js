@@ -8,7 +8,7 @@ const callback = (responseStatus, responseData) => {
     console.log("responseData:", responseData);
 
     const petList = document.getElementById("petList");
-    responseData.forEach((ownedpet) => {
+    responseData.rows.forEach((ownedpet) => {
         if (ownedpet.armour_name == null) {
             ownedpet.armour_name = "No Armour"
         }
@@ -63,7 +63,7 @@ const callback = (responseStatus, responseData) => {
                         $('#questModal').on('hidden.bs.modal', function () {
                             window.location.href = "quest.html";
                         });
-                        showModal(responseData)
+                        showModal(responseData.rows)
                     }
                 }
                 else if (responseStatus == 401) {
