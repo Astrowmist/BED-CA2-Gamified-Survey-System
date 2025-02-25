@@ -343,7 +343,7 @@ module.exports.addPet = (req, res, next) => {
             console.error("Error addPet:", error);
             res.status(500).json(error);
         } else {
-            res.locals.insertId=results.rows[0].user_id
+            res.locals.insertId=results.rows[0].owned_pet_id
             next();
         }
     }

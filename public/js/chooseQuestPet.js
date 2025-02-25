@@ -63,7 +63,7 @@ const callback = (responseStatus, responseData) => {
                         $('#questModal').on('hidden.bs.modal', function () {
                             window.location.href = "quest.html";
                         });
-                        showModal(responseData.rows)
+                        showModal(responseData)
                     }
                 }
                 else if (responseStatus == 401) {

@@ -119,7 +119,7 @@ module.exports.insertOwnedPet = (data, callback) => {
     const SQLSTATEMENT = `
         INSERT INTO ownedpet (owner_id, pet_id, pet_level, pet_hp, pet_atk, pet_def)
         VALUES ($1, $2, $3, $4, $5, $6)
-        RETURNING user_id;
+        RETURNING owned_pet_id;
     `;
     const VALUES = [data.owner_id, data.pet_id, data.pet_level, data.pet_hp, data.pet_atk, data.pet_def];
 
