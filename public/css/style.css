@@ -501,10 +501,3 @@ a.cost {
     min-width: 100px; /* Ensures buttons have a minimum size */
     text-align: center;
 }
-
-
-.pinkbutton {
-    border-radius: 5px;
-    padding: 10px 15px;
-    flex-grow: 1; /* Ensures Buy button takes up available space */
-}
